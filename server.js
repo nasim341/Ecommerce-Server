@@ -1,9 +1,10 @@
 const { readdirSync } = require("fs");
 const path = require("path")
-const app = express("express");
+const express = require('express');
+const app = express();
 const helmet = require('helmet');
 const mongoose = require("mongoose");
-require("dontenv").confi();
+require("dotenv").config();
 const morgan = require("morgan");
 const cors = require('cors');
 
@@ -25,7 +26,7 @@ mongoose
     .connect(process.env.DATABASE)
     .then(() => {
         app.listen(port, () => {
-            console.log(`Servre Running o Port ${port}`);
+            console.log(`Server Running on Port ${port}`);
         });
     })
     .catch((err) => console.log(err));
