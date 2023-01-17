@@ -1,5 +1,5 @@
 const User = require("../models/user.js");
-const { hashPassword, comparePassword } = require("../helpers/auth.js");
+const { comparePassword, hashPassword } = require("../helpers/auth.js");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -72,4 +72,33 @@ exports.login = async(req, res) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
+exports.secret = async(req, res) => {
+        res.json({ currentUser: req.user })
+    }
+    //update profile
+exports.updateProfile = async(req, res) => {
+    try {
+        const { name, password, address } = req.body;
+        const user = await User.findById(req.user._id);
+
+        if (password && password.length < 6) {
+            return res.json({
+                error: "Password is required and should be min 6 characters long"
+            });
+        }
+        const hashPassword = password ? await hashPassword(password) : undefined;
+
+        const updated = await User.findByIdAndUpdate(
+            req.user._id, {
+                name: name || user.name,
+                password: hashPassword || user.password,
+                address: address || user.address,
+            }, { new: true }
+        );
+        updated.password = undefined;
+        res.json(updated);
+    } catch (error) {
+        console.log(error);
+    }
+};

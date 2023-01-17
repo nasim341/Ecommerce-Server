@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { register, login } = require("../controllers/auth.js");
+const { register, login, updateProfile } = require("../controllers/auth.js");
 const { requireSignin, isAdmin } = require("../middlewares/auth.js");
 
 router.post("/register", register)
 router.post("/login", login)
+router.post("/profile", updateProfile)
 
 router.get("/auth-check", requireSignin, (req, res) => {
     res.json({ ok: true })
