@@ -5,7 +5,7 @@ const { requireSignin, isAdmin } = require("../middlewares/auth.js");
 
 router.post("/register", register)
 router.post("/login", login)
-router.post("/profile", updateProfile)
+router.put("/profile", requireSignin, updateProfile)
 
 router.get("/auth-check", requireSignin, (req, res) => {
     res.json({ ok: true })
