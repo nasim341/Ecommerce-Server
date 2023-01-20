@@ -18,3 +18,18 @@ exports.create = async(req, res) => {
         return res.status(400).json(error)
     }
 };
+exports.update = async(req, res) => {
+    try {
+        const { name } = req.body;
+        const { categoryId } = req.params;
+        const category = await Category.findByIdAndUpdate(
+            categoryId, {
+                name,
+                slug: slugify(name),
+            }, { new: true });
+        res.json(category);
+
+    } catch (error) {
+        console.log(error);
+    }
+}
