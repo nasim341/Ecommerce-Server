@@ -52,3 +52,13 @@ exports.list = async(req, res) => {
         return res.status(400).json(error.massage)
     }
 };
+
+exports.read = async(req, res) => {
+    try {
+        const category = await Category.findOne({ slug: req.params.slug })
+        res.json(category);
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json(error)
+    }
+}
