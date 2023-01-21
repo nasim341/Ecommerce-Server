@@ -3,8 +3,10 @@ const router = express.Router();
 const { requireSignin, isAdmin } = require("../middlewares/auth");
 const {
     create,
-    update
+    update,
+    remove
 } = require("../controllers/category.js")
-router.post("/caategory", requireSignin, isAdmin, create)
-router.post("/caategory/:categoryId", requireSignin, isAdmin, update)
+router.post("/category", requireSignin, isAdmin, create)
+router.post("/category/:categoryId", requireSignin, isAdmin, update)
+router.post("/category/:categoryId", requireSignin, isAdmin, remove)
 module.exports = router;

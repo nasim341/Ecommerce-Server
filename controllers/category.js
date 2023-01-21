@@ -33,3 +33,13 @@ exports.update = async(req, res) => {
         console.log(error);
     }
 }
+exports.
+} = async(req, res) => {
+    try {
+        const removed = await Category.findByIdAndDelete(req.params.categoryId)
+        res.json(removed)
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json(error.massage)
+    }
+};
