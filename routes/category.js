@@ -4,9 +4,11 @@ const { requireSignin, isAdmin } = require("../middlewares/auth");
 const {
     create,
     update,
-    remove
+    remove,
+    list
 } = require("../controllers/category.js")
 router.post("/category", requireSignin, isAdmin, create)
-router.post("/category/:categoryId", requireSignin, isAdmin, update)
-router.post("/category/:categoryId", requireSignin, isAdmin, remove)
+router.put("/category/:categoryId", requireSignin, isAdmin, update)
+router.delete("/category/:categoryId", requireSignin, isAdmin, remove)
+router.get("/categories", list)
 module.exports = router;
