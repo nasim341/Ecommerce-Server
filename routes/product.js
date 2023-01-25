@@ -6,12 +6,14 @@ const { requireSignin, isAdmin } = require("../middlewares/auth.js")
 const {
     create,
     list,
-    read
+    read,
+    photo
 } = require("../controllers/product.js");
 
 
 router.post("/product", requireSignin, isAdmin, formidable(), create)
 router.get("/products", list)
 router.get("/product/:slug", read)
+router.get("/product/photo/:productId", photo)
 
 module.exports = router;

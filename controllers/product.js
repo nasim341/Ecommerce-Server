@@ -5,6 +5,7 @@ const braintree = require("braintree");
 require("dotenv").config();
 const Order = require("../models/order.js");
 const sgMail = require("@sendgrid/mail");
+const { Console } = require("console");
 
 
 sgMail.setApiKey(process.env.SENDGRID_KEY);
@@ -70,5 +71,17 @@ exports.read = async(req, res) => {
         res.json(product)
     } catch (error) {
         console.log(error);
+    }
+};
+exports.photo = async(req, res) => {
+    try {
+        const product = await Product.findById(req.params.productId)
+            .select("photo");
+        if (product.photo.data) {
+            res.set("Content-Type", product.photo.contentType);
+            return res.send(product.photo.data)
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
