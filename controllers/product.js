@@ -84,4 +84,15 @@ exports.photo = async(req, res) => {
     } catch (error) {
         console.log(error)
     }
+};
+
+exports.remove = async(req, res) => {
+    try {
+        const product = await Product.findByIdAndDelete(
+            req.params.productId
+        ).select("-photo");
+        res.json(product);
+    } catch (error) {
+        console.log(error)
+    }
 }
