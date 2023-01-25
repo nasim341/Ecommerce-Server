@@ -62,3 +62,13 @@ exports.list = async(req, res) => {
         console.log(error);
     }
 }
+exports.read = async(req, res) => {
+    try {
+        const product = await Product.findOne({ slug: req.params.slug })
+            .select("-photo")
+            .populate("category")
+        res.json(product)
+    } catch (error) {
+        console.log(error);
+    }
+}
