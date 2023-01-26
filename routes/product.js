@@ -8,7 +8,8 @@ const {
     list,
     read,
     photo,
-    remove
+    remove,
+    update
 } = require("../controllers/product.js");
 
 
@@ -17,4 +18,5 @@ router.get("/products", list)
 router.get("/product/:slug", read)
 router.get("/product/photo/:productId", photo)
 router.delete("/product/:productId", requireSignin, isAdmin, remove)
+router.put("/product/:productId", requireSignin, isAdmin, formidable(),update)
 module.exports = router;
