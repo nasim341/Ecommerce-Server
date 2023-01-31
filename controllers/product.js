@@ -6,6 +6,7 @@ require("dotenv").config();
 const Order = require("../models/order.js");
 const sgMail = require("@sendgrid/mail");
 const { Console } = require("console");
+const { parseArgs } = require("util");
 
 
 sgMail.setApiKey(process.env.SENDGRID_KEY);
@@ -96,58 +97,62 @@ exports.remove = async(req, res) => {
         console.log(error)
     }
 }
-exports.update = async (req,res)=>{
+exports.update = async (req, res) => {
     try {
-        const {name,description,price,category,quantity,shipping}=
+    
+      const { name, description, price, category, quantity, shipping } =
         req.fields;
-        const{photo}= req.files;
-        switch(true){
-            case !name.trim():
-            return  res.json({error:"Name is required"})
-            case !description.trim():
-            return  res.json({ error: "Description is required" });
-            case !price.trim():
-            return  res.json({ error: "Price is required" });
-            case !category.trim():
-            return  res.json({ error: "Category is required" });
-            case !quantity.trim():
-            return  res.json({ error: "Quantity is required" });
-            case !shipping.trim():
-            return  res.json({ error: "Shipping is required" });
-            case photo && photo.size > 1000000:
-            return  res.json({ error: "Image should be less than 1mb in size" });
-        }
-        const update = await Product.findByIdAndUpdate(
-            req.params.productId,
-            {
-                ...req.fields,
-                slug:slugify(name),
-            },
-            {new:true}
-        );
-        if(photo){
-            product.photo.data = fs.readFileSync(photo.path);
-            product.photo.contentType = photo.type;
-        }
-        await product.save();
-        res.json(product);
-    } catch (error) {
-        console.log(error)
-    }
-}
-exports.filteredProducts = async (req, res) => {
-    try {
-      const { checked, radio } = req.body;
-      
-      let args = {};
-      if (checked.length > 0) args.category = checked
-      if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
-      console.log("args => ", args);
+      const { photo } = req.files;
+
+      switch (true) {
+        case !name?.trim():
+        return  res.json({ error: "Name is required" });
+        case !description?.trim():
+        return  res.json({ error: "Description is required" });
+        case !price?.trim():
+        return  res.json({ error: "Price is required" });
+        case !category?.trim():
+        return  res.json({ error: "Category is required" });
+        case !quantity?.trim():
+        return  res.json({ error: "Quantity is required" });
+        case !shipping?.trim():
+        return  res.json({ error: "Shipping is required" });
+        case photo && photo.size > 1000000:
+        return  res.json({ error: "Image should be less than 1mb in size" });
+      }
   
-      const products = await Product.find(args);
-      console.log("filtered products query => ", products.length);
-      res.json(products);
+      const product = await Product.findByIdAndUpdate(
+        req.params.productId,
+        {
+          ...req.fields,
+          slug: slugify(name),
+        },
+        { new: true }
+      );
+  
+      if (photo) {
+        product.photo.data = fs.readFileSync(photo.path);
+        product.photo.contentType = photo.type;
+      }
+  
+      await product.save();
+      res.json(product);
     } catch (err) {
       console.log(err);
+      return res.status(400).json(err.message);
     }
-  }
+  };
+  exports.filteredProducts = async (res,req)=>{
+    try {
+        const{checked,radio}= req.body;
+        let args = {};
+        if(checked.length>0) args.category = checked
+        if(radio.length) args.price = {$gte: radio[0], $lte:radio[1]};
+        console.log("args= >",args);
+        const products = await Product.find(args);
+        console.log("filtered products query => ", products.length);
+        res.json(products);
+      } catch (err) {
+        console.log(err);
+      }
+    };
