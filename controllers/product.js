@@ -162,4 +162,20 @@ exports.productsCount = async(req,res)=>{
     } catch (error) {
         console.log(error)
     }
+};
+exports.listProducts = async (req,res)=>{
+    try {
+        const perPage = 1;
+        const page = req.params.page ? req.params.page : 1;
+
+        const products = await Product.find({})
+        .select("-photo")
+        .skip((page - 1) * perPage)
+        .limit(perPage)
+        .sort({createdAt: -1});
+
+        res.json(products);
+    } catch (error) {
+        console.log(error)
+    }
 }

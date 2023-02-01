@@ -11,7 +11,8 @@ const {
     remove,
     update,
     filteredProduct,
-    productsCount
+    productsCount,
+    listProducts
 } = require("../controllers/product.js");
 
 
@@ -23,4 +24,5 @@ router.delete("/product/:productId", requireSignin, isAdmin, remove)
 router.put("/product/:productId", requireSignin, isAdmin, formidable(),update)
 router.post("/filtered-products", filteredProduct)
 router.get("/products-count", productsCount)
+router.get("/list-products/:page",listProducts)
 module.exports = router;
