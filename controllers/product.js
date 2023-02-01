@@ -86,7 +86,6 @@ exports.photo = async(req, res) => {
         console.log(error)
     }
 };
-
 exports.remove = async(req, res) => {
     try {
         const product = await Product.findByIdAndDelete(
@@ -96,7 +95,7 @@ exports.remove = async(req, res) => {
     } catch (error) {
         console.log(error)
     }
-}
+};
 exports.update = async (req, res) => {
     try {
     
@@ -141,7 +140,7 @@ exports.update = async (req, res) => {
       console.log(err);
       return res.status(400).json(err.message);
     }
-  };
+};
   exports.filteredProduct = async (req,res) =>{
     try {
         const{checked,radio}=req.body;
@@ -155,4 +154,12 @@ exports.update = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-  }
+};
+exports.productsCount = async(req,res)=>{
+    try {
+        const total = await Product.find({}).estimatedDocumentCount();
+        res.json(total);
+    } catch (error) {
+        console.log(error)
+    }
+}
