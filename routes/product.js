@@ -12,7 +12,8 @@ const {
     update,
     filteredProduct,
     productsCount,
-    listProducts
+    listProducts,
+    productsSearch
 } = require("../controllers/product.js");
 
 
@@ -25,4 +26,6 @@ router.put("/product/:productId", requireSignin, isAdmin, formidable(),update)
 router.post("/filtered-products", filteredProduct)
 router.get("/products-count", productsCount)
 router.get("/list-products/:page",listProducts)
+router.get("/products/search/:keyword",productsSearch)
+
 module.exports = router;

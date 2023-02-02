@@ -163,7 +163,7 @@ exports.productsCount = async(req,res)=>{
         console.log(error)
     }
 };
-exports.listProducts = async (req,res)=>{
+exports.listProducts = async(req,res)=>{
     try {
         const perPage = 1;
         const page = req.params.page ? req.params.page : 1;
@@ -177,5 +177,19 @@ exports.listProducts = async (req,res)=>{
         res.json(products);
     } catch (error) {
         console.log(error)
+    }
+}
+exports.productsSearch = async (req,res) =>{
+    try {
+        const{keyword}=req.params;
+        const results = await Product.find({
+            $or:[
+                {name:{$regex:keyword,$options:"i"}},
+                {description:{$regex:keyword,$options:"i"}}
+            ],
+        }).select("-photo")
+        res.json(results);
+    } catch (error) {
+        console.log(error);
     }
 }
