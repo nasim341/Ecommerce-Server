@@ -13,7 +13,8 @@ const {
     filteredProduct,
     productsCount,
     listProducts,
-    productsSearch
+    productsSearch,
+    relatedProducts
 } = require("../controllers/product.js");
 
 
@@ -27,5 +28,6 @@ router.post("/filtered-products", filteredProduct)
 router.get("/products-count", productsCount)
 router.get("/list-products/:page",listProducts)
 router.get("/products/search/:keyword",productsSearch)
+router.get("/related-products/:productId/:categoryId",relatedProducts)
 
 module.exports = router;

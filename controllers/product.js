@@ -193,3 +193,19 @@ exports.productsSearch = async (req,res) =>{
         console.log(error);
     }
 }
+exports.relatedProducts = async(req,res) =>{
+    try {
+        const{productId, categoryId}=req.params;
+        const related = await Product.find({
+            category:categoryId,
+            _id:{$ne:productId}
+        })
+        .select("-photo")
+        .populate("category")
+        .limit(2)
+
+        res.json(related);
+    } catch (error) {
+        console.log(error)
+    }
+}
