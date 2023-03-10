@@ -14,4 +14,13 @@ router.get("/admin-check", requireSignin, isAdmin, (req, res) => {
     res.json({ ok: true })
 })
 
+router.put("/profile", requireSignin, updateProfile);
+
+// testing
+router.get("/secret", requireSignin, isAdmin, secret);
+
+// orders
+router.get("/orders", requireSignin, getOrders);
+router.get("/all-orders", requireSignin, isAdmin, allOrders);
+
 module.exports = router;
